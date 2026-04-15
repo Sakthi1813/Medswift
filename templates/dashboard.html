@@ -120,16 +120,22 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
 <!-- Leaflet -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<!-- Socket.IO (served by Flask-SocketIO) -->
+
+<!-- Socket.IO -->
 <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+
+<!-- Firebase config -->
 <script>
 const firebaseConfig = {{ firebase_config | tojson }};
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 </script>
-<script src="/static/js/map.js"></script>
-<script src="/static/js/main.js"></script>
+
+<!-- ✅ FIXED STATIC FILE PATHS -->
+<script src="{{ url_for('static', filename='js/map.js') }}"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>
