@@ -4,8 +4,20 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>MedSwift - Dashboard</title>
-<link rel="stylesheet" href="/static/css/style.css"/>
+
+<!-- ✅ FIXED CSS PATH -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+<style>
+/* ✅ Ensure map always visible */
+#map {
+  height: 100vh;
+  width: 100%;
+}
+</style>
+
 </head>
 <body class="dashboard-body">
 
@@ -37,12 +49,12 @@
     <div class="sidebar-section">
       <div class="section-label">Emergency Type</div>
       <div class="emergency-types">
-        <button class="etype-btn active" data-type="General"     onclick="selectType(this)">General</button>
-        <button class="etype-btn"        data-type="Cardiac"     onclick="selectType(this)">Cardiac</button>
-        <button class="etype-btn"        data-type="Trauma"      onclick="selectType(this)">Trauma</button>
-        <button class="etype-btn"        data-type="Stroke"      onclick="selectType(this)">Stroke</button>
-        <button class="etype-btn"        data-type="Respiratory" onclick="selectType(this)">Respiratory</button>
-        <button class="etype-btn"        data-type="Maternity"   onclick="selectType(this)">Maternity</button>
+        <button class="etype-btn active" data-type="General" onclick="selectType(this)">General</button>
+        <button class="etype-btn" data-type="Cardiac" onclick="selectType(this)">Cardiac</button>
+        <button class="etype-btn" data-type="Trauma" onclick="selectType(this)">Trauma</button>
+        <button class="etype-btn" data-type="Stroke" onclick="selectType(this)">Stroke</button>
+        <button class="etype-btn" data-type="Respiratory" onclick="selectType(this)">Respiratory</button>
+        <button class="etype-btn" data-type="Maternity" onclick="selectType(this)">Maternity</button>
       </div>
     </div>
 
@@ -58,42 +70,26 @@
       Book Emergency Transport
     </button>
 
-    <!-- ════════════════════════════════════════════
-         NEARBY AMBULANCES PANEL  (NEW)
-    ════════════════════════════════════════════ -->
+    <!-- Nearby ambulances -->
     <div id="nearby-ambulances-panel" style="display:none;">
       <div class="sidebar-section">
-        <div class="section-label-row">
-          <div class="section-label">Nearby Ambulances
-            <span id="amb-available-badge" class="badge-green"></span>
-          </div>
-          <span class="live-dot-wrap">
-            <span class="live-dot"></span> Live
-          </span>
-        </div>
-        <div id="nearby-ambulances-list" class="nearby-amb-list"></div>
+        <div class="section-label">Nearby Ambulances</div>
+        <div id="nearby-ambulances-list"></div>
       </div>
     </div>
 
-    <!-- Booking confirmation -->
+    <!-- Booking -->
     <div id="booking-panel" style="display:none;">
       <div class="sidebar-section">
         <div class="section-label">Booking Confirmed</div>
-        <div class="booking-card">
-          <div class="booking-id" id="b-id"></div>
-          <div class="booking-row"><span>Driver</span><strong id="b-driver"></strong></div>
-          <div class="booking-row"><span>Vehicle</span><strong id="b-vehicle"></strong></div>
-          <div class="booking-row"><span>ETA</span><strong id="b-eta"></strong></div>
-          <div class="booking-row"><span>Status</span><span id="b-status" class="status-badge">Confirmed</span></div>
-        </div>
-      </div>
-      <div class="sidebar-section">
-        <div class="section-label">Assigned Hospital</div>
-        <div class="hospital-detail-card" id="assigned-hospital-card"></div>
+        <div id="b-id"></div>
+        <div id="b-driver"></div>
+        <div id="b-vehicle"></div>
+        <div id="b-eta"></div>
       </div>
     </div>
 
-    <!-- Hospitals panel -->
+    <!-- Hospitals -->
     <div id="hospitals-panel" style="display:none;">
       <div class="sidebar-section">
         <div class="section-label">Nearest Hospitals</div>
@@ -104,14 +100,9 @@
   </aside>
 
   <main class="dash-map-container">
-    <div id="map"></div>
-    <div id="map-legend" class="map-legend">
-      <div class="legend-item"><span class="legend-dot user-dot"></span> You</div>
-      <div class="legend-item"><span class="legend-dot amb-dot"></span> Ambulance</div>
-      <div class="legend-item"><span class="legend-dot hosp-dot"></span> Hospital</div>
-    </div>
-    <div id="status-bar" class="status-bar" style="display:none;">
-      <span id="status-msg">Locating...</span>
+    <!-- ✅ Map with loading text -->
+    <div id="map">
+      <div style="text-align:center;padding:20px;">Loading map...</div>
     </div>
   </main>
 </div>
@@ -119,23 +110,31 @@
 <!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
 <!-- Leaflet -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-<!-- Socket.IO -->
-<script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
-
-<!-- Firebase config -->
+<!-- Firebase Config (SAFE) -->
 <script>
-const firebaseConfig = {{ firebase_config | tojson }};
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
+const firebaseConfig = {{ firebase_config | tojson | safe }};
+if (firebaseConfig) {
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+} else {
+  console.error("Firebase config missing");
+}
 </script>
 
-<!-- ✅ FIXED STATIC FILE PATHS -->
+<!-- ✅ FIXED JS PATHS -->
 <script src="{{ url_for('static', filename='js/map.js') }}"></script>
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+<!-- Debug -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("Dashboard loaded successfully");
+});
+</script>
+
 </body>
 </html>
