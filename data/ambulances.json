@@ -1,10 +1,35 @@
 [
-  {"id": "AMB001", "driver_name": "Rajesh Kumar",  "driver_phone": "+91-9876543210", "vehicle_number": "DL-01-AB-1234", "latitude": 28.6100, "longitude": 77.2300, "status": "available", "type": "ALS", "hospital": "AIIMS Delhi"},
-  {"id": "AMB002", "driver_name": "Suresh Singh",  "driver_phone": "+91-9876543211", "vehicle_number": "DL-02-CD-5678", "latitude": 28.5900, "longitude": 77.1800, "status": "available", "type": "BLS", "hospital": "Safdarjung Hospital"},
-  {"id": "AMB003", "driver_name": "Mohan Verma",   "driver_phone": "+91-9876543212", "vehicle_number": "DL-03-EF-9012", "latitude": 28.6300, "longitude": 77.2100, "status": "available", "type": "ALS", "hospital": "RML Hospital"},
-  {"id": "AMB004", "driver_name": "Amit Sharma",   "driver_phone": "+91-9876543213", "vehicle_number": "DL-04-GH-3456", "latitude": 28.5700, "longitude": 77.2500, "status": "available", "type": "BLS", "hospital": "GTB Hospital"},
-  {"id": "AMB005", "driver_name": "Vikram Patel",  "driver_phone": "+91-9876543214", "vehicle_number": "DL-05-IJ-7890", "latitude": 28.6200, "longitude": 77.1900, "status": "available", "type": "ALS", "hospital": "Lok Nayak Hospital"},
-  {"id": "AMB006", "driver_name": "Deepak Yadav",  "driver_phone": "+91-9876543215", "vehicle_number": "DL-06-KL-2345", "latitude": 28.6450, "longitude": 77.2200, "status": "available", "type": "BLS", "hospital": "Hindu Rao Hospital"},
-  {"id": "AMB007", "driver_name": "Priya Mehta",   "driver_phone": "+91-9876543216", "vehicle_number": "DL-07-MN-6789", "latitude": 28.5600, "longitude": 77.2650, "status": "busy",      "type": "ALS", "hospital": "Max Saket"},
-  {"id": "AMB008", "driver_name": "Anil Gupta",    "driver_phone": "+91-9876543217", "vehicle_number": "DL-08-OP-0123", "latitude": 28.6700, "longitude": 77.1600, "status": "available", "type": "BLS", "hospital": "Fortis Vasant Kunj"}
+{"id":"AMB001","driver_name":"Rajesh Kumar","driver_phone":"+91-9876543210","vehicle_number":"DL-01-AB-1234","latitude":10.6555,"longitude":78.7456,"status":"available","type":"ALS"},
+{"id":"AMB002","driver_name":"Suresh Singh","driver_phone":"+91-9876543211","vehicle_number":"DL-02-CD-5678","latitude":10.6655,"longitude":78.7556,"status":"available","type":"BLS"},
+{"id":"AMB003","driver_name":"Mohan Verma","driver_phone":"+91-9876543212","vehicle_number":"DL-03-EF-9012","latitude":10.6455,"longitude":78.7356,"status":"available","type":"ALS"},
+{"id":"AMB004","driver_name":"Amit Sharma","driver_phone":"+91-9876543213","vehicle_number":"DL-04-GH-3456","latitude":10.6755,"longitude":78.7656,"status":"available","type":"BLS"},
+{"id":"AMB005","driver_name":"Vikram Patel","driver_phone":"+91-9876543214","vehicle_number":"DL-05-IJ-7890","latitude":10.6355,"longitude":78.7256,"status":"available","type":"ALS"},
+{"id":"AMB006","driver_name":"Ravi Shankar","driver_phone":"+91-9876543215","vehicle_number":"DL-06-KL-1234","latitude":10.6600,"longitude":78.7500,"status":"available","type":"ALS"},
+{"id":"AMB007","driver_name":"Anil Kapoor","driver_phone":"+91-9876543216","vehicle_number":"DL-07-MN-5678","latitude":10.6700,"longitude":78.7400,"status":"available","type":"BLS"},
+{"id":"AMB008","driver_name":"Sunil Gupta","driver_phone":"+91-9876543217","vehicle_number":"DL-08-OP-9012","latitude":10.6400,"longitude":78.7300,"status":"available","type":"ALS"},
+{"id":"AMB009","driver_name":"Karan Mehta","driver_phone":"+91-9876543218","vehicle_number":"DL-09-QR-3456","latitude":10.6800,"longitude":78.7600,"status":"available","type":"BLS"},
+{"id":"AMB010","driver_name":"Ramesh Yadav","driver_phone":"+91-9876543219","vehicle_number":"DL-10-ST-7890","latitude":10.6500,"longitude":78.7200,"status":"available","type":"ALS"},
+
+{"id":"AMB011","driver_name":"Arun Kumar","driver_phone":"+91-9876543220","vehicle_number":"TN-11-AA-1122","latitude":10.6611,"longitude":78.7411,"status":"available","type":"ALS"},
+{"id":"AMB012","driver_name":"Prakash Nair","driver_phone":"+91-9876543221","vehicle_number":"TN-12-BB-2233","latitude":10.6722,"longitude":78.7522,"status":"available","type":"BLS"},
+{"id":"AMB013","driver_name":"Manoj Das","driver_phone":"+91-9876543222","vehicle_number":"TN-13-CC-3344","latitude":10.6433,"longitude":78.7333,"status":"available","type":"ALS"},
+{"id":"AMB014","driver_name":"Deepak Joshi","driver_phone":"+91-9876543223","vehicle_number":"TN-14-DD-4455","latitude":10.6544,"longitude":78.7444,"status":"available","type":"BLS"},
+{"id":"AMB015","driver_name":"Sanjay Gupta","driver_phone":"+91-9876543224","vehicle_number":"TN-15-EE-5566","latitude":10.6655,"longitude":78.7555,"status":"available","type":"ALS"},
+{"id":"AMB016","driver_name":"Rahul Mishra","driver_phone":"+91-9876543225","vehicle_number":"TN-16-FF-6677","latitude":10.6766,"longitude":78.7666,"status":"available","type":"ALS"},
+{"id":"AMB017","driver_name":"Ajay Reddy","driver_phone":"+91-9876543226","vehicle_number":"TN-17-GG-7788","latitude":10.6377,"longitude":78.7277,"status":"available","type":"BLS"},
+{"id":"AMB018","driver_name":"Vinod Pillai","driver_phone":"+91-9876543227","vehicle_number":"TN-18-HH-8899","latitude":10.6488,"longitude":78.7388,"status":"available","type":"ALS"},
+{"id":"AMB019","driver_name":"Harish Kumar","driver_phone":"+91-9876543228","vehicle_number":"TN-19-II-9900","latitude":10.6599,"longitude":78.7499,"status":"available","type":"BLS"},
+{"id":"AMB020","driver_name":"Kishore Rao","driver_phone":"+91-9876543229","vehicle_number":"TN-20-JJ-1010","latitude":10.6710,"longitude":78.7610,"status":"available","type":"ALS"},
+
+{"id":"AMB021","driver_name":"Santosh Yadav","driver_phone":"+91-9876543230","vehicle_number":"TN-21-KK-1111","latitude":10.6421,"longitude":78.7321,"status":"available","type":"ALS"},
+{"id":"AMB022","driver_name":"Gopal Singh","driver_phone":"+91-9876543231","vehicle_number":"TN-22-LL-2222","latitude":10.6532,"longitude":78.7432,"status":"available","type":"BLS"},
+{"id":"AMB023","driver_name":"Naveen Kumar","driver_phone":"+91-9876543232","vehicle_number":"TN-23-MM-3333","latitude":10.6643,"longitude":78.7543,"status":"available","type":"ALS"},
+{"id":"AMB024","driver_name":"Rohit Sharma","driver_phone":"+91-9876543233","vehicle_number":"TN-24-NN-4444","latitude":10.6754,"longitude":78.7654,"status":"available","type":"BLS"},
+{"id":"AMB025","driver_name":"Dinesh Patel","driver_phone":"+91-9876543234","vehicle_number":"TN-25-OO-5555","latitude":10.6365,"longitude":78.7265,"status":"available","type":"ALS"},
+{"id":"AMB026","driver_name":"Ashok Kumar","driver_phone":"+91-9876543235","vehicle_number":"TN-26-PP-6666","latitude":10.6476,"longitude":78.7376,"status":"available","type":"ALS"},
+{"id":"AMB027","driver_name":"Vijay Singh","driver_phone":"+91-9876543236","vehicle_number":"TN-27-QQ-7777","latitude":10.6587,"longitude":78.7487,"status":"available","type":"BLS"},
+{"id":"AMB028","driver_name":"Rakesh Gupta","driver_phone":"+91-9876543237","vehicle_number":"TN-28-RR-8888","latitude":10.6698,"longitude":78.7598,"status":"available","type":"ALS"},
+{"id":"AMB029","driver_name":"Mahesh Kumar","driver_phone":"+91-9876543238","vehicle_number":"TN-29-SS-9999","latitude":10.6809,"longitude":78.7709,"status":"available","type":"BLS"},
+{"id":"AMB030","driver_name":"Ganesh Iyer","driver_phone":"+91-9876543239","vehicle_number":"TN-30-TT-1212","latitude":10.6510,"longitude":78.7210,"status":"available","type":"ALS"}
+
 ]
