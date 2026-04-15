@@ -183,11 +183,13 @@ def broadcast():
             ambulances = find_nearby_ambulances(loc["lat"], loc["lon"])
             socketio.emit("update", {"ambulances": ambulances}, to=sid)
 
-threading.Thread(target=broadcast, daemon=True).start()
+
 
 # ──────────────────────────────────────────────
 # ❗ ONLY for local development
 # ──────────────────────────────────────────────
 
 if __name__ == "__main__":
-    socketio.run(app, host="0.0.0.0", port=5000, debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    socketio.run(app, host="0.0.0.0", port=port)
+   
