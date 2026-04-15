@@ -17,7 +17,7 @@ app.secret_key = os.environ.get("FLASK_SECRET_KEY", "medswift_secret_2024")
 CORS(app, resources={r"/*": {"origins": "*"}})
 
 # ✅ Updated SocketIO (Production-ready with eventlet)
-socketio = SocketIO(app, cors_allowed_origins="*")
+socketio = SocketIO(app, cors_allowed_origins="*", async_mode="threading")
 
 # Import services
 from services.hospital_finder import find_nearest_hospitals
