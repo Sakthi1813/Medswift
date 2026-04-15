@@ -1,6 +1,7 @@
 // ═══════════════════════════════════════════════════════════════
 //  MedSwift – main.js  (Real-time Nearby Ambulance Edition)
 // ═══════════════════════════════════════════════════════════════
+const BASE_URL = "https://medswift-production.up.railway.app";
 let currentUser  = null;
 let userLat      = null;
 let userLon      = null;
