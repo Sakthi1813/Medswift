@@ -1,11 +1,9 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, request, jsonify
 from flask_cors import CORS
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO
 from dotenv import load_dotenv
 import os
 import uuid
-import threading
-import time
 from datetime import datetime
 
 load_dotenv()
@@ -13,57 +11,31 @@ load_dotenv()
 app = Flask(__name__)
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "medswift_secret_2024")
 
-# Enable CORS
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-# ✅ Updated SocketIO (Production-ready with eventlet)
 socketio = SocketIO(app, cors_allowed_origins="*", async_mode="threading")
 
-# Import services
-from services.hospital_finder import find_nearest_hospitals
-from services.ambulance_dispatcher import (
-    find_nearest_ambulance,
-    find_nearby_ambulances,
-    update_ambulance_status,
-    load_ambulances,
-)
-from services.route_service import get_full_route
-from services.email_service import send_booking_confirmation
-from firebase_config import get_firebase_web_config
-
-# Temporary in-memory storage
+# In-memory storage
 bookings_store = {}
 
-# ──────────────────────────────────────────────
-# Routes
-# ──────────────────────────────────────────────
-
+# ✅ FIXED ROOT ROUTE
 @app.route("/")
-def landing():
-    return render_template("landing.html")
+def home():
+    return {"status": "Medswift API running 🚀"}
 
-@app.route("/login")
-def login():
-    return render_template("login.html", firebase_config=get_firebase_web_config())
 
-@app.route("/signup")
-def signup():
-    return render_template("signup.html", firebase_config=get_firebase_web_config())
-
-@app.route("/dashboard")
-def dashboard():
-    return render_template("dashboard.html", firebase_config=get_firebase_web_config())
-
+# 🔹 Firebase config
 @app.route("/api/firebase-config")
 def firebase_config_endpoint():
+    from firebase_config import get_firebase_web_config
     return jsonify(get_firebase_web_config())
 
-# ──────────────────────────────────────────────
-# APIs
-# ──────────────────────────────────────────────
 
+# 🔹 Find hospitals
 @app.route("/api/find-hospitals", methods=["POST"])
 def api_find_hospitals():
+    from services.hospital_finder import find_nearest_hospitals
+
     data = request.get_json()
     lat = float(data.get("latitude"))
     lon = float(data.get("longitude"))
@@ -78,8 +50,11 @@ def api_find_hospitals():
     })
 
 
+# 🔹 Find ambulance
 @app.route("/api/find-ambulance", methods=["POST"])
 def api_find_ambulance():
+    from services.ambulance_dispatcher import find_nearest_ambulance
+
     data = request.get_json()
     lat = float(data.get("latitude"))
     lon = float(data.get("longitude"))
@@ -91,8 +66,13 @@ def api_find_ambulance():
     return jsonify({"success": False}), 503
 
 
+# 🔹 Create booking
 @app.route("/api/create-booking", methods=["POST"])
 def api_create_booking():
+    from services.route_service import get_full_route
+    from services.email_service import send_booking_confirmation
+    from services.ambulance_dispatcher import update_ambulance_status
+
     data = request.get_json()
 
     booking_id = "MS" + str(uuid.uuid4()).replace("-", "")[:8].upper()
@@ -143,6 +123,7 @@ def api_create_booking():
     return jsonify({"success": True, "booking": booking})
 
 
+# 🔹 Get booking
 @app.route("/api/booking/<booking_id>")
 def get_booking(booking_id):
     booking = bookings_store.get(booking_id)
@@ -151,45 +132,20 @@ def get_booking(booking_id):
     return jsonify({"success": False}), 404
 
 
+# 🔹 Load ambulances
 @app.route("/api/ambulances")
 def api_ambulances():
+    from services.ambulance_dispatcher import load_ambulances
     return jsonify(load_ambulances())
 
-# ──────────────────────────────────────────────
-# WebSocket
-# ──────────────────────────────────────────────
 
-clients = {}
-
+# 🔹 WebSocket (basic)
 @socketio.on("connect")
 def connect():
-    print("Client connected:", request.sid)
-
-@socketio.on("disconnect")
-def disconnect():
-    clients.pop(request.sid, None)
-
-@socketio.on("subscribe")
-def subscribe(data):
-    lat = float(data.get("lat"))
-    lon = float(data.get("lon"))
-
-    clients[request.sid] = {"lat": lat, "lon": lon}
-
-def broadcast():
-    while True:
-        time.sleep(5)
-        for sid, loc in clients.items():
-            ambulances = find_nearby_ambulances(loc["lat"], loc["lon"])
-            socketio.emit("update", {"ambulances": ambulances}, to=sid)
+    print("Client connected")
 
 
-
-# ──────────────────────────────────────────────
-# ❗ ONLY for local development
-# ──────────────────────────────────────────────
-
+# 🔹 Run app
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     socketio.run(app, host="0.0.0.0", port=port)
-   
