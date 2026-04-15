@@ -17,25 +17,39 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 bookings_store = {}
 
 # ───────────────────────────────────────────
-# 🌐 FRONTEND ROUTES (NEW)
+# 🌐 FRONTEND ROUTES (FIXED)
 # ───────────────────────────────────────────
 
 @app.route("/")
 def home():
     return render_template("landing.html")
 
+
 @app.route("/login")
 def login():
-    return render_template("login.html")
+    from firebase_config import get_firebase_web_config
+    return render_template(
+        "login.html",
+        firebase_config=get_firebase_web_config()
+    )
+
 
 @app.route("/signup")
 def signup():
-    return render_template("signup.html")
+    from firebase_config import get_firebase_web_config
+    return render_template(
+        "signup.html",
+        firebase_config=get_firebase_web_config()
+    )
+
 
 @app.route("/dashboard")
 def dashboard():
-    return render_template("dashboard.html")
-
+    from firebase_config import get_firebase_web_config
+    return render_template(
+        "dashboard.html",
+        firebase_config=get_firebase_web_config()
+    )
 
 # ───────────────────────────────────────────
 # 🔹 API ROUTES (UNCHANGED)
