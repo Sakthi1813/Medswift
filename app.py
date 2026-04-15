@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from flask_socketio import SocketIO
 from dotenv import load_dotenv
 import os
 import uuid
@@ -13,7 +12,6 @@ app.secret_key = os.environ.get("FLASK_SECRET_KEY", "medswift_secret_2024")
 
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-socketio = SocketIO(app, cors_allowed_origins="*", async_mode="threading")
 
 # In-memory storage
 bookings_store = {}
@@ -148,4 +146,4 @@ def connect():
 # 🔹 Run app
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
-    socketio.run(app, host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=port)
