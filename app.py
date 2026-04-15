@@ -137,13 +137,9 @@ def api_ambulances():
     return jsonify(load_ambulances())
 
 
-# 🔹 WebSocket (basic)
-@socketio.on("connect")
-def connect():
-    print("Client connected")
-
-
 # 🔹 Run app
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
+application = app
