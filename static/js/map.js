@@ -1,183 +1,125 @@
 // ═══════════════════════════════════════════════════════════════
-// MedSwift – main.js (FINAL PRO VERSION)
+// MedSwift – map.js (FINAL WORKING VERSION)
 // ═══════════════════════════════════════════════════════════════
 
-const BASE_URL = "https://medswift-production.up.railway.app";
-
-let currentUser = null;
-let userLat = null;
-let userLon = null;
-
-let currentBooking = null;
-let trackingInterval = null;
+let map;
+let userMarker;
+let ambulanceMarker;
+let hospitalMarker;
+let routePolyline;
 
 // ───────────────────────────────────────────
-// AUTH
+// INIT MAP
 // ───────────────────────────────────────────
-auth.onAuthStateChanged(user => {
-  if (!user) { window.location.href = "/login"; return; }
+function initMap(lat = 28.6139, lon = 77.2090) {
 
-  currentUser = user;
-  document.getElementById("user-display").textContent =
-    user.displayName || user.email.split("@")[0];
+  if (map) return;
 
-  detectLocation();
-});
+  map = L.map("map").setView([lat, lon], 13);
 
-function handleLogout() {
-  auth.signOut().then(() => window.location.href = "/login");
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "&copy; OpenStreetMap contributors"
+  }).addTo(map);
 }
 
 // ───────────────────────────────────────────
-// LOCATION
+// USER MARKER
 // ───────────────────────────────────────────
-function detectLocation() {
-  navigator.geolocation.getCurrentPosition(
-    pos => {
-      userLat = pos.coords.latitude;
-      userLon = pos.coords.longitude;
+function setUserMarker(lat, lon) {
 
-      setUserMarker(userLat, userLon);
-      loadNearestHospitals();
-    },
-    () => {
-      userLat = 28.6139;
-      userLon = 77.2090;
+  if (!map) {
+    initMap(lat, lon); // 🔥 THIS FIXES YOUR ISSUE
+  }
 
-      setUserMarker(userLat, userLon);
-      loadNearestHospitals();
-    }
-  );
+  if (userMarker) {
+    userMarker.setLatLng([lat, lon]);
+  } else {
+    userMarker = L.marker([lat, lon])
+      .addTo(map)
+      .bindPopup("📍 You are here");
+  }
+
+  map.setView([lat, lon], 14);
 }
 
 // ───────────────────────────────────────────
-// HOSPITALS
+// AMBULANCE
 // ───────────────────────────────────────────
-async function loadNearestHospitals() {
-  const res = await fetch(`${BASE_URL}/api/find-hospitals`, {
-    method: "POST",
-    headers: {"Content-Type":"application/json"},
-    body: JSON.stringify({ latitude:userLat, longitude:userLon })
-  });
+function setAmbulanceMarker(lat, lon, label) {
 
-  const data = await res.json();
-  if (data.success) showNearestHospitals(data.hospitals);
-}
+  if (!map) return;
 
-// ───────────────────────────────────────────
-// BOOKING
-// ───────────────────────────────────────────
-async function initiateBooking() {
-
-  const ambRes = await fetch(`${BASE_URL}/api/find-ambulance`, {
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({ latitude:userLat, longitude:userLon })
-  });
-
-  const ambData = await ambRes.json();
-  if (!ambData.success) return alert("No ambulance");
-
-  const ambulance = ambData.ambulance;
-
-  const hospRes = await fetch(`${BASE_URL}/api/find-hospitals`, {
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({ latitude:userLat, longitude:userLon })
-  });
-
-  const hospital = (await hospRes.json()).hospitals[0];
-
-  const bookRes = await fetch(`${BASE_URL}/api/create-booking`, {
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({
-      ambulance,
-      hospital,
-      user_lat:userLat,
-      user_lon:userLon,
-      user_email:currentUser.email,
-      user_name:currentUser.displayName || "User"
-    })
-  });
-
-  const booking = await bookRes.json();
-
-  if (booking.success) {
-    currentBooking = booking.booking;
-
-    showBookingDetails(currentBooking);
-    startLiveTracking(currentBooking);
+  if (ambulanceMarker) {
+    ambulanceMarker.setLatLng([lat, lon]);
+  } else {
+    ambulanceMarker = L.marker([lat, lon])
+      .addTo(map)
+      .bindPopup(`🚑 ${label}`);
   }
 }
 
 // ───────────────────────────────────────────
-// SHOW BOOKING UI
+// HOSPITAL
 // ───────────────────────────────────────────
-function showBookingDetails(b) {
-  document.getElementById("booking-panel").style.display = "block";
+function setHospitalMarker(lat, lon, name) {
 
-  document.getElementById("b-id").innerText = "ID: " + b.booking_id;
-  document.getElementById("b-driver").innerText =
-    "Driver: " + (b.ambulance?.driver_name || "-");
-  document.getElementById("b-vehicle").innerText =
-    "Vehicle: " + (b.ambulance?.vehicle_number || "-");
+  if (!map) return;
 
-  drawRouteFromBooking(b);
+  if (hospitalMarker) {
+    hospitalMarker.setLatLng([lat, lon]);
+  } else {
+    hospitalMarker = L.marker([lat, lon])
+      .addTo(map)
+      .bindPopup(`🏥 ${name}`);
+  }
 }
 
 // ───────────────────────────────────────────
-// DRAW ROUTE
+// ROUTE
 // ───────────────────────────────────────────
-function drawRouteFromBooking(b) {
-  if (!b.route || !b.route.route) return;
+function drawRoute(coords) {
 
-  const coords = b.route.route.map(p => [p[0], p[1]]);
-  drawRoute(coords);
+  if (!map) return;
 
-  setAmbulanceMarker(
-    b.ambulance.latitude,
-    b.ambulance.longitude,
-    b.ambulance.driver_name
-  );
+  if (routePolyline) {
+    map.removeLayer(routePolyline);
+  }
 
-  setHospitalMarker(
-    b.hospital.latitude,
-    b.hospital.longitude,
-    b.hospital.name
-  );
+  routePolyline = L.polyline(coords, {
+    color: "blue",
+    weight: 5
+  }).addTo(map);
+
+  map.fitBounds(routePolyline.getBounds());
 }
 
 // ───────────────────────────────────────────
-// LIVE TRACKING (SIMULATION)
+// UPDATE AMBULANCE
 // ───────────────────────────────────────────
-function startLiveTracking(b) {
+function updateAmbulancePosition(lat, lon) {
 
-  const route = b.route?.route;
-  if (!route) return;
-
-  let i = 0;
-
-  trackingInterval = setInterval(() => {
-    if (i >= route.length) return clearInterval(trackingInterval);
-
-    const [lat, lon] = route[i];
-    updateAmbulancePosition(lat, lon);
-
-    i++;
-  }, 1000);
+  if (ambulanceMarker) {
+    ambulanceMarker.setLatLng([lat, lon]);
+  }
 }
 
 // ───────────────────────────────────────────
-// CANCEL BOOKING
+// CLEAR
 // ───────────────────────────────────────────
-function cancelBooking() {
-  if (!currentBooking) return;
+function clearRoute() {
 
-  clearInterval(trackingInterval);
-  clearRoute();
+  if (routePolyline) {
+    map.removeLayer(routePolyline);
+    routePolyline = null;
+  }
 
-  document.getElementById("booking-panel").style.display = "none";
+  if (ambulanceMarker) {
+    map.removeLayer(ambulanceMarker);
+    ambulanceMarker = null;
+  }
 
-  alert("Booking Cancelled ❌");
+  if (hospitalMarker) {
+    map.removeLayer(hospitalMarker);
+    hospitalMarker = null;
+  }
 }

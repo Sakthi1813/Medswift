@@ -5,27 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>MedSwift - Dashboard</title>
 
-<!-- KEEP YOUR ORIGINAL STYLE -->
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
 <style>
-/* FIX MAP ISSUE */
 #map {
   height: 100vh;
   width: 100%;
 }
 </style>
-
 </head>
+
 <body class="dashboard-body">
 
-<!-- ORIGINAL NAV -->
+<!-- NAVBAR -->
 <nav class="dash-nav">
   <a href="/" class="logo-mark">
     <div class="logo-cross">+</div>
     <span class="logo-text">MedSwift</span>
   </a>
+
   <div class="nav-right">
     <span id="user-display" class="user-name-display"></span>
     <button class="btn-outline btn-sm" onclick="handleLogout()">Sign Out</button>
@@ -34,7 +33,7 @@
 
 <div class="dash-layout">
 
-<!-- ORIGINAL SIDEBAR -->
+<!-- SIDEBAR -->
 <aside class="dash-sidebar">
 
   <!-- LOCATION -->
@@ -52,7 +51,7 @@
     🚑 Book Emergency Transport
   </button>
 
-  <!-- ✅ NEW BOOKING PANEL (ADDED ONLY) -->
+  <!-- 🔥 ADDED (does NOT change layout) -->
   <div id="booking-panel" style="display:none;">
     <div class="sidebar-section">
       <div class="section-label">Booking Confirmed</div>
@@ -61,14 +60,13 @@
       <div id="b-driver"></div>
       <div id="b-vehicle"></div>
 
-      <!-- ✅ CANCEL BUTTON -->
       <button onclick="cancelBooking()" class="btn-outline btn-full">
         Cancel Booking ❌
       </button>
     </div>
   </div>
 
-  <!-- ORIGINAL HOSPITAL PANEL -->
+  <!-- HOSPITALS -->
   <div id="hospitals-panel" style="display:none;">
     <div class="sidebar-section">
       <div class="section-label">Nearest Hospitals</div>
@@ -78,7 +76,7 @@
 
 </aside>
 
-<!-- ORIGINAL MAP -->
+<!-- MAP -->
 <main class="dash-map-container">
   <div id="map">
     <div style="text-align:center;padding:20px;">Loading map...</div>
@@ -103,18 +101,6 @@ const auth = firebase.auth();
 <!-- IMPORTANT ORDER -->
 <script src="{{ url_for('static', filename='js/map.js') }}"></script>
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-
-<!-- ✅ FIX MAP NOT LOADING -->
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("Dashboard Loaded");
-
-  // Force map init if not triggered
-  if (typeof initMap === "function") {
-    initMap(28.6139, 77.2090);
-  }
-});
-</script>
 
 </body>
 </html>
