@@ -5,59 +5,61 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>MedSwift - Dashboard</title>
 
+<!-- KEEP YOUR ORIGINAL STYLE -->
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
 <style>
+/* FIX MAP ISSUE */
 #map {
   height: 100vh;
   width: 100%;
 }
 </style>
-</head>
 
+</head>
 <body class="dashboard-body">
 
-<!-- NAVBAR -->
+<!-- ORIGINAL NAV -->
 <nav class="dash-nav">
   <a href="/" class="logo-mark">
     <div class="logo-cross">+</div>
     <span class="logo-text">MedSwift</span>
   </a>
-
   <div class="nav-right">
-    <span id="user-display"></span>
-    <button onclick="handleLogout()" class="btn-outline">Sign Out</button>
+    <span id="user-display" class="user-name-display"></span>
+    <button class="btn-outline btn-sm" onclick="handleLogout()">Sign Out</button>
   </div>
 </nav>
 
 <div class="dash-layout">
 
-<!-- SIDEBAR -->
+<!-- ORIGINAL SIDEBAR -->
 <aside class="dash-sidebar">
 
   <!-- LOCATION -->
   <div class="sidebar-section">
     <div class="section-label">Your Location</div>
-    <div id="location-status">
-      <span id="loc-text">Detecting...</span>
-      <button onclick="detectLocation()" class="btn-outline btn-sm">Refresh</button>
+    <div id="location-status" class="location-box">
+      <span id="loc-text">Detecting location...</span>
+      <button class="btn-sm btn-outline" onclick="detectLocation()">Refresh</button>
     </div>
+    <div id="coords-display" class="coords-small" style="display:none;"></div>
   </div>
 
   <!-- BOOK BUTTON -->
-  <button onclick="initiateBooking()" class="btn-emergency btn-full">
+  <button id="book-btn" class="btn-emergency btn-full" onclick="initiateBooking()">
     🚑 Book Emergency Transport
   </button>
 
-  <!-- BOOKING PANEL -->
+  <!-- ✅ NEW BOOKING PANEL (ADDED ONLY) -->
   <div id="booking-panel" style="display:none;">
     <div class="sidebar-section">
       <div class="section-label">Booking Confirmed</div>
 
-      <p id="b-id"></p>
-      <p id="b-driver"></p>
-      <p id="b-vehicle"></p>
+      <div id="b-id"></div>
+      <div id="b-driver"></div>
+      <div id="b-vehicle"></div>
 
       <!-- ✅ CANCEL BUTTON -->
       <button onclick="cancelBooking()" class="btn-outline btn-full">
@@ -66,7 +68,7 @@
     </div>
   </div>
 
-  <!-- HOSPITALS -->
+  <!-- ORIGINAL HOSPITAL PANEL -->
   <div id="hospitals-panel" style="display:none;">
     <div class="sidebar-section">
       <div class="section-label">Nearest Hospitals</div>
@@ -76,10 +78,10 @@
 
 </aside>
 
-<!-- MAP -->
-<main>
+<!-- ORIGINAL MAP -->
+<main class="dash-map-container">
   <div id="map">
-    <div style="padding:20px;text-align:center;">Loading map...</div>
+    <div style="text-align:center;padding:20px;">Loading map...</div>
   </div>
 </main>
 
@@ -89,19 +91,30 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
-<!-- Leaflet -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
-<!-- Firebase Config -->
 <script>
 const firebaseConfig = {{ firebase_config | tojson | safe }};
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 </script>
 
-<!-- JS FILES -->
+<!-- Leaflet -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<!-- IMPORTANT ORDER -->
 <script src="{{ url_for('static', filename='js/map.js') }}"></script>
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+<!-- ✅ FIX MAP NOT LOADING -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("Dashboard Loaded");
+
+  // Force map init if not triggered
+  if (typeof initMap === "function") {
+    initMap(28.6139, 77.2090);
+  }
+});
+</script>
 
 </body>
 </html>
