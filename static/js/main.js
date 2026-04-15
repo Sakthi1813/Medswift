@@ -186,3 +186,28 @@ function cancelBooking() {
 
   alert("Booking Cancelled ❌");
 }
+
+// ───────────────────────────────────────────
+// SHOW HOSPITALS (FIX)
+// ───────────────────────────────────────────
+function showNearestHospitals(hospitals) {
+
+  const panel = document.getElementById("hospitals-panel");
+  const list = document.getElementById("hospitals-list");
+
+  panel.style.display = "block";
+  list.innerHTML = "";
+
+  hospitals.forEach((h, index) => {
+
+    const item = document.createElement("div");
+    item.className = "hospital-item";
+
+    item.innerHTML = `
+      <strong>${index + 1}. ${h.name}</strong><br/>
+      Distance: ${h.distance?.toFixed(2) || "-"} km
+    `;
+
+    list.appendChild(item);
+  });
+}
