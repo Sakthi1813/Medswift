@@ -205,7 +205,7 @@ function showNearestHospitals(hospitals) {
 
     item.innerHTML = `
       <strong>${index + 1}. ${h.name}</strong><br/>
-      Distance: ${h.distance?.toFixed(2) || "-"} km
+      Distance: ${h.distance_km?.toFixed(2) || "-"} km
     `;
 
     list.appendChild(item);

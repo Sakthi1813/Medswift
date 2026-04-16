@@ -20,9 +20,13 @@ bookings_store = {}
 # 🌐 FRONTEND ROUTES (FIXED)
 # ───────────────────────────────────────────
 
-@app.route("/")
-def home():
-    return render_template("landing.html")
+@app.route("/signup")
+def signup():
+    from firebase_config import get_firebase_web_config
+    return render_template(
+        "signup.html",
+        firebase_config=get_firebase_web_config()
+    )
 
 
 @app.route("/login")
@@ -34,15 +38,6 @@ def login():
     )
 
 
-@app.route("/signup")
-def signup():
-    from firebase_config import get_firebase_web_config
-    return render_template(
-        "signup.html",
-        firebase_config=get_firebase_web_config()
-    )
-
-
 @app.route("/dashboard")
 def dashboard():
     from firebase_config import get_firebase_web_config
@@ -50,7 +45,6 @@ def dashboard():
         "dashboard.html",
         firebase_config=get_firebase_web_config()
     )
-
 # ───────────────────────────────────────────
 # 🔹 API ROUTES (UNCHANGED)
 # ───────────────────────────────────────────
