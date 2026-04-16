@@ -6,13 +6,13 @@ _db = None
 _initialized = False
 
 FIREBASE_CONFIG = {
-    "apiKey": "AIzaSyC_1iWwRgk1I4o08twRtZfCdzxe9sEDxR0",
-    "authDomain": "ertyujk-35a21.firebaseapp.com",
-    "projectId": "ertyujk-35a21",
-    "storageBucket": "ertyujk-35a21.firebasestorage.app",
-    "messagingSenderId": "278592739411",
-    "appId": "1:278592739411:web:1e0849996c82979df54ea6",
-    "measurementId": "G-Q4YLG4VKC4"
+  apiKey: "AIzaSyB8KAqzjTMC28Swted-NdZ3p-5myI7oLAs",
+  authDomain: "medswift-35193.firebaseapp.com",
+  projectId: "medswift-35193",
+  storageBucket: "medswift-35193.firebasestorage.app",
+  messagingSenderId: "663262393300",
+  appId: "1:663262393300:web:f7a13e047e532436685c41",
+  measurementId: "G-FWG702LK8F"
 }
 
 def get_db():
@@ -35,3 +35,4 @@ def get_db():
 
 def get_firebase_web_config():
     return FIREBASE_CONFIG
+
