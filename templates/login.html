@@ -48,7 +48,7 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script>
-const firebaseConfig = {{ firebase_config | tojson }};
+const firebaseConfig = {{ firebase_config | tojson | safe }};
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 

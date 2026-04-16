@@ -125,7 +125,7 @@
 <!-- Socket.IO (served by Flask-SocketIO) -->
 <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
 <script>
-const firebaseConfig = {{ firebase_config | tojson }};
+const firebaseConfig = {{ firebase_config | tojson | safe }};
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 </script>
