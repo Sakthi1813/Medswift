@@ -1,9 +1,10 @@
 name,latitude,longitude,address,phone,city,state,type
-AIIMS Delhi,28.5672,77.2100,Sri Aurobindo Marg New Delhi,011-26588500,New Delhi,Delhi,Government
-Safdarjung Hospital,28.5689,77.2058,Ring Road New Delhi,011-26165060,New Delhi,Delhi,Government
-Ram Manohar Lohia Hospital,28.6328,77.2090,Baba Kharak Singh Marg New Delhi,011-23404178,New Delhi,Delhi,Government
-Apollo Hospital Delhi,28.5437,77.2780,Sarita Vihar New Delhi,011-71791090,New Delhi,Delhi,Private
-Fortis Escorts Heart Institute,28.5541,77.2731,Okhla Road New Delhi,011-47135000,New Delhi,Delhi,Private
+Madras Medical College,13.0696,80.2855,Park Town Chennai,044-25305000,Chennai,Tamil Nadu,Government
+Apollo Hospital Chennai,28.5437,77.2780,Sarita Vihar New Delhi,600001,chennai, TamilNadu
+Fortis Escorts Heart Institute,28.5541,77.2731,Okhla Road New Delhi,011-47135000,chennai, TamilNadu
+Manipal Hospital Bangalore,12.9591,77.6463,98 HAL Airport Road Bangalore,080-25024444,Bangalore,Karnataka,Private
+Fortis Hospital Bangalore,12.9399,77.6165,Bannerghatta Road Bangalore,080-66214444,Bangalore,Karnataka,Private
+Apollo Hospital Bangalore,12.9279,77.5985,154/11 Bannerghatta Road Bangalore,080-26304050,Bangalore,Karnataka,Private
 Max Super Speciality Hospital Saket,28.5253,77.2162,Press Enclave Marg Saket New Delhi,011-26515050,New Delhi,Delhi,Private
 Sir Ganga Ram Hospital,28.6437,77.1900,Rajinder Nagar New Delhi,011-25750000,New Delhi,Delhi,Private
 Lok Nayak Hospital,28.6368,77.2411,Jawahar Lal Nehru Marg New Delhi,011-23232400,New Delhi,Delhi,Government
@@ -27,9 +28,6 @@ Tata Memorial Hospital,18.9983,72.8158,Dr Ernest Borges Marg Mumbai,022-24177000
 Nanavati Super Speciality Hospital,19.0993,72.8354,Vile Parle Mumbai,022-26182222,Mumbai,Maharashtra,Private
 Breach Candy Hospital,18.9702,72.8083,Bhulabhai Desai Road Mumbai,022-23667888,Mumbai,Maharashtra,Private
 NIMHANS Bangalore,12.9434,77.5954,Hosur Road Bangalore,080-46110007,Bangalore,Karnataka,Government
-Manipal Hospital Bangalore,12.9591,77.6463,98 HAL Airport Road Bangalore,080-25024444,Bangalore,Karnataka,Private
-Fortis Hospital Bangalore,12.9399,77.6165,Bannerghatta Road Bangalore,080-66214444,Bangalore,Karnataka,Private
-Apollo Hospital Bangalore,12.9279,77.5985,154/11 Bannerghatta Road Bangalore,080-26304050,Bangalore,Karnataka,Private
 Narayana Health City Bangalore,12.8781,77.6405,258/A Bommasandra Bangalore,080-71222222,Bangalore,Karnataka,Private
 Apollo Hospital Chennai,13.0569,80.2425,Greams Lane Chennai,044-28293333,Chennai,Tamil Nadu,Private
 Madras Medical College,13.0696,80.2855,Park Town Chennai,044-25305000,Chennai,Tamil Nadu,Government
