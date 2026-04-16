@@ -5,7 +5,8 @@ import os
 _db = None
 _initialized = False
 
-FIREBASE_CONFIG = {
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
   apiKey: "AIzaSyB8KAqzjTMC28Swted-NdZ3p-5myI7oLAs",
   authDomain: "medswift-35193.firebaseapp.com",
   projectId: "medswift-35193",
@@ -13,7 +14,7 @@ FIREBASE_CONFIG = {
   messagingSenderId: "663262393300",
   appId: "1:663262393300:web:f7a13e047e532436685c41",
   measurementId: "G-FWG702LK8F"
-}
+};
 
 def get_db():
     global _db, _initialized
