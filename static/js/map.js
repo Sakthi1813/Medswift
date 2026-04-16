@@ -123,3 +123,61 @@ function clearRoute() {
     hospitalMarker = null;
   }
 }
+
+// ───────────────────────────────────────────
+// 🚑 LIVE AMBULANCE TRACKING
+// ───────────────────────────────────────────
+
+let ambulanceMarker = null;
+let routeLine = null;
+
+// Animate ambulance movement
+function animateAmbulance(startLat, startLon, endLat, endLon) {
+
+  const steps = 50; // smoothness
+  let step = 0;
+
+  const latStep = (endLat - startLat) / steps;
+  const lonStep = (endLon - startLon) / steps;
+
+  let currentLat = startLat;
+  let currentLon = startLon;
+
+  // remove old marker if exists
+  if (ambulanceMarker) {
+    map.removeLayer(ambulanceMarker);
+  }
+
+  ambulanceMarker = L.marker([currentLat, currentLon], {
+    icon: L.icon({
+      iconUrl: "https://cdn-icons-png.flaticon.com/512/2967/2967350.png",
+      iconSize: [40, 40]
+    })
+  }).addTo(map);
+
+  // draw route line
+  if (routeLine) {
+    map.removeLayer(routeLine);
+  }
+
+  routeLine = L.polyline([], { color: "red", weight: 4 }).addTo(map);
+
+  const interval = setInterval(() => {
+
+    if (step >= steps) {
+      clearInterval(interval);
+      document.getElementById("b-status").innerText = "Arrived";
+      return;
+    }
+
+    currentLat += latStep;
+    currentLon += lonStep;
+
+    ambulanceMarker.setLatLng([currentLat, currentLon]);
+
+    routeLine.addLatLng([currentLat, currentLon]);
+
+    step++;
+
+  }, 300); // speed (lower = faster)
+}

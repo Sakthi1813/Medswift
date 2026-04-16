@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════
-// MedSwift – CLEAN SIMPLE VERSION
+// MedSwift – FINAL WORKING VERSION
 // ═══════════════════════════════════════════
 
 const BASE_URL = "https://medswift-production.up.railway.app";
@@ -30,7 +30,7 @@ function handleLogout() {
 }
 
 // ───────────────────────────────────────────
-// LOCATION
+// LOCATION (FIXED)
 // ───────────────────────────────────────────
 function detectLocation() {
   navigator.geolocation.getCurrentPosition(
@@ -39,15 +39,18 @@ function detectLocation() {
       userLon = pos.coords.longitude;
 
       setUserMarker(userLat, userLon);
+
       loadNearestHospitals();
+      loadNearbyAmbulances(); // 🔥 FIX ADDED
     },
     () => {
-      // fallback
       userLat = 28.6139;
       userLon = 77.2090;
 
       setUserMarker(userLat, userLon);
+
       loadNearestHospitals();
+      loadNearbyAmbulances(); // 🔥 FIX ADDED
     }
   );
 }
@@ -72,11 +75,49 @@ async function loadNearestHospitals() {
 }
 
 // ───────────────────────────────────────────
+// 🚑 AMBULANCES (NEW FIX)
+// ───────────────────────────────────────────
+async function loadNearbyAmbulances() {
+  try {
+    const res = await fetch(`${BASE_URL}/api/find-ambulance`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ latitude: userLat, longitude: userLon })
+    });
+
+    const data = await res.json();
+    if (!data.success) return;
+
+    const panel = document.getElementById("nearby-ambulances-panel");
+    const list = document.getElementById("nearby-ambulances-list");
+
+    panel.style.display = "block";
+    list.innerHTML = "";
+
+    const amb = data.ambulance;
+
+    const item = document.createElement("div");
+    item.className = "ambulance-item";
+
+    item.innerHTML = `
+      <strong>${amb.driver_name}</strong><br/>
+      Vehicle: ${amb.vehicle_number}<br/>
+      Distance: ${amb.distance_km || "-"} km
+    `;
+
+    list.appendChild(item);
+
+  } catch (err) {
+    console.error("Ambulance error:", err);
+  }
+}
+
+// ───────────────────────────────────────────
 // BOOKING
 // ───────────────────────────────────────────
 async function initiateBooking() {
   try {
-    // 🚑 get ambulance
+
     const ambRes = await fetch(`${BASE_URL}/api/find-ambulance`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -91,7 +132,6 @@ async function initiateBooking() {
 
     const ambulance = ambData.ambulance;
 
-    // 🏥 get hospital
     const hospRes = await fetch(`${BASE_URL}/api/find-hospitals`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -100,7 +140,6 @@ async function initiateBooking() {
 
     const hospital = (await hospRes.json()).hospitals[0];
 
-    // 📦 create booking
     const bookRes = await fetch(`${BASE_URL}/api/create-booking`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -129,7 +168,7 @@ async function initiateBooking() {
 }
 
 // ───────────────────────────────────────────
-// LIVE TRACKING (SIMPLIFIED)
+// LIVE TRACKING
 // ───────────────────────────────────────────
 function startLiveTracking(b) {
   if (!b.ambulance) return;
@@ -158,13 +197,11 @@ function showBookingDetails(b) {
 }
 
 // ───────────────────────────────────────────
-// CANCEL BOOKING
+// CANCEL
 // ───────────────────────────────────────────
 function cancelBooking() {
   currentBooking = null;
-
   document.getElementById("booking-panel").style.display = "none";
-
   alert("Booking Cancelled ❌");
 }
 
